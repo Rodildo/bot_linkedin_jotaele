@@ -4,6 +4,16 @@ from image_handler import get_fallback_image, download_image
 from linkedin_publisher import publish_to_make_webhook
 import time
 import schedule
+import random
+
+TOPICOS_TENDENCIA = [
+    "ultimos avances tecnologicos y su impacto",
+    "descubrimientos cientificos recientes y sorprendentes",
+    "tecnologia de consumo y redes sociales",
+    "innovacion y ciencia aplicada a la vida diaria",
+    "inteligencia artificial y el futuro del trabajo",
+    "curiosidades cientificas virales"
+]
 
 def base_run(topic, count, post_type, image_keyword):
     print(f"Iniciando Bot de LinkedIn para: {post_type.upper()}...\n")
@@ -44,13 +54,16 @@ def base_run(topic, count, post_type, image_keyword):
         print(f"\nEl bot falló en la etapa de envío al webhook para {post_type}.")
 
 def run_dato_curioso():
-    base_run(topic="petroleo venezuela", count=1, post_type="curiosidad", image_keyword="oil,history")
+    topic = random.choice(TOPICOS_TENDENCIA)
+    base_run(topic=topic, count=1, post_type="curiosidad", image_keyword="science,tech,future")
 
 def run_opinion():
-    base_run(topic="petroleo venezuela", count=1, post_type="opinion", image_keyword="oil,rig,petroleum")
+    topic = random.choice(TOPICOS_TENDENCIA)
+    base_run(topic=topic, count=1, post_type="opinion", image_keyword="news,trend,innovation")
 
 def run_pregunta():
-    base_run(topic="economia venezuela", count=3, post_type="pregunta", image_keyword="venezuela,economy,caracas")
+    topic = random.choice(TOPICOS_TENDENCIA)
+    base_run(topic=topic, count=3, post_type="pregunta", image_keyword="cyberpunk,society,debate")
 
 if __name__ == "__main__":
     print("Iniciando programador del Bot...")

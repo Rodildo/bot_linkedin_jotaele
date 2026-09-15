@@ -7,6 +7,14 @@ load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
+def load_persona():
+    persona_path = os.path.join(os.path.dirname(__file__), 'persona.txt')
+    try:
+        with open(persona_path, 'r', encoding='utf-8') as f:
+            return f.read().strip()
+    except Exception:
+        return "Eres un experto de la industria que comparte contenido analítico y profesional en LinkedIn."
+
 def generate_post(news_text, post_type="opinion"):
     """
     Toma el texto de una noticia y utiliza Gemini para generar un post.
@@ -20,26 +28,29 @@ def generate_post(news_text, post_type="opinion"):
     
     # Elegir una longitud aleatoria para darle variedad
     lengths = [
-        "muy breve y directo (máximo 1 o 2 párrafos).",
-        "de longitud media (unos 3 párrafos).",
-        "un poco más largo y analítico (4 o 5 párrafos)."
+        "extremadamente breve y como un dardo (máximo 1 párrafo de 3 o 4 líneas).",
+        "muy directo y al grano (máximo 2 párrafos muy cortos).",
+        "como un pensamiento rápido (1 párrafo de impacto y 1 reflexión final)."
     ]
     chosen_length = random.choice(lengths)
     
+    persona = load_persona()
+
     if post_type == "curiosidad":
         prompt = f"""
-        Eres un experto de la industria petrolera que comparte contenido interesante en LinkedIn.
-        A continuación te paso una noticia reciente.
+        PERSONALIDAD DEL BOT:
+        {persona}
         
-        Tu tarea es escribir el "Dato Curioso del Día".
-        Extrae un dato curioso, histórico o estadístico relacionado con el tema de la noticia.
+        A continuación te paso una noticia reciente.
+        Tu tarea es escribir el "Dato Curioso del Día" sobre el tema de la noticia.
+        Extrae un dato curioso, histórico o estadístico.
         
         REGLAS:
         1. INICIA EL POST con algo como "El Dato Curioso del Día:" o similar.
-        2. EL TONO debe ser humano, muy simple de entender, y buscando crear un poco de polémica o debate.
+        2. EL TONO debe seguir estrictamente la PERSONALIDAD DEL BOT definida arriba.
         3. ESTÁ ESTRICTAMENTE PROHIBIDO HABLAR DE POLÍTICA.
         4. LONGITUD REQUERIDA: El post debe ser {chosen_length}
-        5. Termina con una reflexión o pregunta abierta para generar polémica sana en los comentarios.
+        5. Termina con una reflexión o pregunta abierta para generar debate sano en los comentarios.
         
         TEXTO DE LA NOTICIA:
         {news_text}
@@ -48,14 +59,16 @@ def generate_post(news_text, post_type="opinion"):
         """
     elif post_type == "pregunta":
         prompt = f"""
-        Eres un analista provocador en LinkedIn. A continuación te paso un resumen de varias noticias sobre la economía de Venezuela.
+        PERSONALIDAD DEL BOT:
+        {persona}
         
+        A continuación te paso un resumen de varias noticias actuales.
         Tu tarea es lanzar la "Pregunta del Día".
         
         REGLAS:
         1. Analiza las noticias proporcionadas.
-        2. Formula una pregunta altamente polémica y muy actual que invite al debate profundo en los comentarios.
-        3. EL TONO debe ser directo, en vogue y retador, pero humano.
+        2. Formula una pregunta que invite al debate profundo en los comentarios.
+        3. EL TONO debe seguir estrictamente la PERSONALIDAD DEL BOT definida arriba.
         4. ESTÁ ESTRICTAMENTE PROHIBIDO HABLAR DE POLÍTICA. Enfócate en economía, mercado, innovación o negocios.
         5. LONGITUD REQUERIDA: El post debe ser breve, directo, máximo 2 párrafos antes de lanzar la gran pregunta.
         
@@ -66,15 +79,16 @@ def generate_post(news_text, post_type="opinion"):
         """
     else: # opinion
         prompt = f"""
-        Eres un analista experto de la industria petrolera que comparte análisis en LinkedIn.
-        A continuación te paso una noticia reciente del sector petrolero.
+        PERSONALIDAD DEL BOT:
+        {persona}
         
+        A continuación te paso una noticia reciente de la industria.
         Tu tarea es escribir la "Opinión del Día", un post de LinkedIn que parta directamente analizando esta noticia, y luego des tu opinión experta al respecto.
         
         REGLAS:
         1. INICIA EL POST mencionando de forma clara la noticia. Que la noticia sea la base objetiva de tu opinión.
-        2. EL TONO debe ser FORMAL y PROFESIONAL, pero con un LENGUAJE SIMPLE Y DIRECTO. No uses palabras rebuscadas, raras o demasiado complejas. Escribe de manera que cualquier persona pueda entender tu punto fácilmente.
-        3. MANTÉN EL TOQUE POLÉMICO: Cuestiona de forma inteligente las decisiones de las empresas o el rumbo de la industria, pero siempre con altura.
+        2. EL TONO debe seguir estrictamente la PERSONALIDAD DEL BOT definida arriba.
+        3. MANTÉN EL TOQUE POLÉMICO/DEBATE: Cuestiona de forma inteligente las decisiones o el rumbo de la industria, pero siempre con altura.
         4. ESTÁ ESTRICTAMENTE PROHIBIDO HABLAR DE POLÍTICA. Cero menciones a gobiernos, políticos o regulaciones estatales.
         5. LONGITUD REQUERIDA: El post debe ser {chosen_length}
         6. Termina SIEMPRE con una pregunta abierta e inteligente que invite a debatir en los comentarios.
@@ -98,7 +112,7 @@ def generate_post(news_text, post_type="opinion"):
 
 if __name__ == "__main__":
     # Test
-    sample_news = "La empresa XYZ anuncia que reducirá su producción de barriles diarios en un 10% debido a problemas de logística interna y falta de inversión en innovación, enfocándose en mantener márgenes de ganancia a corto plazo en lugar de crecimiento a largo plazo."
-    post = generate_post(sample_news, "opinion")
+    sample_news = "Un estudio reciente muestra que el 80% de los trabajadores remotos están trabajando más horas que cuando iban a la oficina, sufriendo de agotamiento silencioso porque las empresas miden la productividad por el tiempo de conexión constante y no por los objetivos cumplidos."
+    post = generate_post(sample_news, "pregunta")
     print("\n--- POST GENERADO ---")
     print(post)
