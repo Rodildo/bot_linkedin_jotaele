@@ -53,30 +53,20 @@ def base_run(topic, count, post_type, image_keyword):
     else:
         print(f"\nEl bot falló en la etapa de envío al webhook para {post_type}.")
 
-def run_dato_curioso():
+def run_normal_post():
     topic = random.choice(TOPICOS_TENDENCIA)
-    base_run(topic=topic, count=1, post_type="curiosidad", image_keyword="science,tech,future")
-
-def run_opinion():
-    topic = random.choice(TOPICOS_TENDENCIA)
-    base_run(topic=topic, count=1, post_type="opinion", image_keyword="news,trend,innovation")
-
-def run_pregunta():
-    topic = random.choice(TOPICOS_TENDENCIA)
-    base_run(topic=topic, count=3, post_type="pregunta", image_keyword="cyberpunk,society,debate")
+    base_run(topic=topic, count=1, post_type="normal", image_keyword="news,trend,innovation")
 
 if __name__ == "__main__":
     print("Iniciando programador del Bot...")
     
-    # Programamos la tarea para que se repita todos los días a horas específicas
-    schedule.every().day.at("09:00").do(run_dato_curioso)
-    schedule.every().day.at("14:00").do(run_opinion)
-    schedule.every().day.at("19:00").do(run_pregunta)
+    # Programamos la tarea para que se repita dos veces al día con 12 horas de diferencia
+    schedule.every().day.at("10:00").do(run_normal_post)
+    schedule.every().day.at("22:00").do(run_normal_post)
     
     print("Programación automática establecida:")
-    print("- 09:00 -> Dato Curioso")
-    print("- 14:00 -> Opinión")
-    print("- 19:00 -> Pregunta del Día")
+    print("- 10:00 -> Post Normal")
+    print("- 22:00 -> Post Normal")
     
     # Bucle infinito para mantener el script ejecutándose en el servidor
     while True:

@@ -77,6 +77,26 @@ def generate_post(news_text, post_type="opinion"):
         
         POST DE LINKEDIN:
         """
+    elif post_type == "normal":
+        prompt = f"""
+        PERSONALIDAD DEL BOT:
+        {persona}
+        
+        A continuación te paso una noticia reciente.
+        Tu tarea es escribir un post de LinkedIn comentando la noticia de forma natural e interesante.
+        
+        REGLAS:
+        1. INICIA EL POST con un gancho atractivo sobre el tema.
+        2. EL TONO debe seguir estrictamente la PERSONALIDAD DEL BOT definida arriba.
+        3. ESTÁ ESTRICTAMENTE PROHIBIDO HABLAR DE POLÍTICA.
+        4. LONGITUD REQUERIDA: El post debe ser {chosen_length}
+        5. Cierra el post de manera concisa.
+        
+        TEXTO DE LA NOTICIA:
+        {news_text}
+        
+        POST DE LINKEDIN:
+        """
     else: # opinion
         prompt = f"""
         PERSONALIDAD DEL BOT:
@@ -113,6 +133,6 @@ def generate_post(news_text, post_type="opinion"):
 if __name__ == "__main__":
     # Test
     sample_news = "Un estudio reciente muestra que el 80% de los trabajadores remotos están trabajando más horas que cuando iban a la oficina, sufriendo de agotamiento silencioso porque las empresas miden la productividad por el tiempo de conexión constante y no por los objetivos cumplidos."
-    post = generate_post(sample_news, "pregunta")
+    post = generate_post(sample_news, "normal")
     print("\n--- POST GENERADO ---")
     print(post)
