@@ -7,19 +7,21 @@ import schedule
 import random
 
 TOPICOS_TENDENCIA = [
-    "ultimos avances tecnologicos y su impacto",
-    "descubrimientos cientificos recientes y sorprendentes",
-    "tecnologia de consumo y redes sociales",
-    "innovacion y ciencia aplicada a la vida diaria",
-    "inteligencia artificial y el futuro del trabajo",
-    "curiosidades cientificas virales"
+    "vigilancia trabajo remoto",
+    "despidos inteligencia artificial",
+    "quiebra startups tecnologia",
+    "adiccion redes sociales",
+    "burnout empleados empresas",
+    "estafa cripto tecnologia",
+    "descubrimiento cientifico insolito"
 ]
 
 def base_run(topic, count, post_type, image_keyword):
     print(f"Iniciando Bot de LinkedIn para: {post_type.upper()}...\n")
     
-    # 1. Scrapear la noticia
-    news_data = scrape_latest_news(topic=topic, count=count)
+    # 1. Scrapear la noticia (si count > 1 y no es 'pregunta', la IA evalúa y elige la más impactante)
+    select_best = (post_type != "pregunta")
+    news_data = scrape_latest_news(topic=topic, count=count, select_best=select_best)
     if not news_data:
         print("No se pudo obtener la noticia. Abortando.")
         return
@@ -33,7 +35,7 @@ def base_run(topic, count, post_type, image_keyword):
     else:
         combined_text = f"Título: {news_data['title']}\nTexto: {news_data['text']}"
         image_url = news_data.get('image_url')
-        print(f"\nNoticia obtenida: {news_data['title']}\n")
+        print(f"\nNoticia seleccionada: {news_data['title']}\n")
     
     # 2. Procesar con IA
     enriched_post = generate_post(combined_text, post_type=post_type)
@@ -43,7 +45,7 @@ def base_run(topic, count, post_type, image_keyword):
         
     # 3. Manejar la Imagen
     if not image_url:
-        image_url = f"https://source.unsplash.com/800x600/?{image_keyword}"
+        image_url = f"https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60"
         
     # 4. Enviar a Make.com
     success = publish_to_make_webhook(enriched_post, image_url)
@@ -55,7 +57,7 @@ def base_run(topic, count, post_type, image_keyword):
 
 def run_normal_post():
     topic = random.choice(TOPICOS_TENDENCIA)
-    base_run(topic=topic, count=1, post_type="normal", image_keyword="news,trend,innovation")
+    base_run(topic=topic, count=5, post_type="normal", image_keyword="news,trend,innovation")
 
 if __name__ == "__main__":
     print("Iniciando programador del Bot...")

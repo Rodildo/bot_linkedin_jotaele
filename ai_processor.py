@@ -15,6 +15,63 @@ def load_persona():
     except Exception:
         return "Eres un experto de la industria que comparte contenido analítico y profesional en LinkedIn."
 
+def select_most_engaging_news(news_items):
+    """
+    De una lista de noticias candidatas (título y resumen), utiliza Gemini
+    para elegir la que tenga mayor tensión, curiosidad, debate o potencial viral,
+    descartando notas de prensa aburridas o institucionales.
+    """
+    if not news_items:
+        return None
+    if len(news_items) == 1:
+        return news_items[0]
+        
+    if not GEMINI_API_KEY:
+        print("Aviso: No hay GEMINI_API_KEY, seleccionando la primera noticia por defecto.")
+        return news_items[0]
+        
+    print(f"\n[IA] Evaluando {len(news_items)} noticias candidatas con IA para elegir la más emocionante...")
+    
+    candidates_text = ""
+    for idx, item in enumerate(news_items):
+        title = item.get('title', 'Sin título')
+        snippet = item.get('text', '')[:160].replace('\n', ' ')
+        candidates_text += f"[{idx}] Titular: {title}\n    Resumen: {snippet}\n\n"
+        
+    prompt = f"""
+    Eres un editor jefe especializado en publicaciones de alto impacto y debate para LinkedIn.
+    
+    Evalúa estas {len(news_items)} noticias candidatas:
+    {candidates_text}
+    
+    CRITERIOS DE SELECCIÓN:
+    1. Elige la noticia que tenga mayor tensión, curiosidad, sorpresa, dilema ético, fracaso/éxito inesperado o contradicción evidente.
+    2. DESCARTA notas de prensa corporativas aburridas, acuerdos comerciales rutinarios o anuncios institucionales vacíos.
+    3. Debe enganchar la atención de un profesional en LinkedIn.
+    
+    RESPONDE ÚNICAMENTE con el número del índice (ejemplo: 0, 1, 2, etc.) de la mejor opción. No agregues texto adicional.
+    """
+    
+    try:
+        client = genai.Client(api_key=GEMINI_API_KEY)
+        response = client.models.generate_content(
+            model='gemini-3.6-flash',
+            contents=prompt,
+        )
+        text_resp = response.text.strip()
+        import re
+        match = re.search(r'\d+', text_resp)
+        if match:
+            idx = int(match.group())
+            if 0 <= idx < len(news_items):
+                print(f"[IA] Noticia seleccionada como mas impactante [{idx}]: {news_items[idx].get('title')}")
+                return news_items[idx]
+        print("No se pudo parsear el índice de la respuesta, usando la primera noticia.")
+    except Exception as e:
+        print(f"Error al evaluar noticias con IA: {e}")
+        
+    return news_items[0]
+
 def generate_post(news_text, post_type="opinion"):
     """
     Toma el texto de una noticia y utiliza Gemini para generar un post.

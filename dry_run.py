@@ -8,33 +8,34 @@ from dotenv import load_dotenv
 load_dotenv()
 
 TOPICOS_TENDENCIA = [
-    "ultimos avances tecnologicos y su impacto",
-    "descubrimientos cientificos recientes y sorprendentes",
-    "tecnologia de consumo y redes sociales",
-    "innovacion y ciencia aplicada a la vida diaria",
-    "inteligencia artificial y el futuro del trabajo",
-    "curiosidades cientificas virales"
+    "vigilancia trabajo remoto",
+    "despidos inteligencia artificial",
+    "quiebra startups tecnologia",
+    "adiccion redes sociales",
+    "burnout empleados empresas",
+    "estafa cripto tecnologia",
+    "descubrimiento cientifico insolito"
 ]
 
 def run_dry_post():
     topic = random.choice(TOPICOS_TENDENCIA)
-    count = 1
-    post_type = "broma"
+    count = 5
+    post_type = "normal"
     image_keyword = "news,trend,innovation"
 
     print(f"--- INICIANDO DRY RUN PARA {post_type.upper()} ---")
     print(f"Tema: {topic}")
     
-    # 1. Scrapear la noticia
-    print("\n1. Scrapeando noticias...")
-    news_data = scrape_latest_news(topic=topic, count=count)
+    # 1. Scrapear candidatos y seleccionar la mejor con IA
+    print("\n1. Buscando candidatos y seleccionando con IA...")
+    news_data = scrape_latest_news(topic=topic, count=count, select_best=True)
     if not news_data:
         print("No se pudo obtener la noticia. Abortando.")
         return
         
     combined_text = f"Título: {news_data['title']}\nTexto: {news_data['text']}"
     image_url = news_data.get('image_url')
-    print(f"Noticia obtenida: {news_data['title']}")
+    print(f"\nNoticia lista para redactar: {news_data['title']}")
     
     # 2. Procesar con IA
     print("\n2. Generando post con IA (Gemini)...")
@@ -45,7 +46,7 @@ def run_dry_post():
         
     # 3. Manejar la Imagen
     if not image_url:
-        image_url = f"https://source.unsplash.com/800x600/?{image_keyword}"
+        image_url = f"https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=60"
 
     print("\n--- RESULTADO FINAL (OFFLINE) ---")
     print(f"URL de imagen a usar: {image_url}\n")
