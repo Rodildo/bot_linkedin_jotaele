@@ -11,5 +11,4 @@ REGLAS ESTRICTAS:
 - ESTRICTAMENTE PROHIBIDO usar emojis.
 - ESTRICTAMENTE PROHIBIDO hablar de política de partidos o gobiernos.
 - Longitud: Máximo 100-120 palabras. Directo a la yugular.
-- Al final, una línea: "PD: Esto fue escrito por un agente de IA, no por mi yo real."
-- 3 o 4 hashtags directos y con gancho.
+- Hashtags: varía la cantidad de post a post (entre 0 y 4). No los pongas siempre; a veces el post cierra mejor sin ninguno.
