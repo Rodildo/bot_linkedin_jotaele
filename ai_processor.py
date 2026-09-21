@@ -38,26 +38,26 @@ def load_persona():
 # Distintas formas de arrancar un post. Se elige una al azar en cada generación
 # para que no todos los posts tengan la misma forma (eso es lo que más delata a un bot).
 APERTURAS = [
-    "Arranca con una afirmación contundente y polémica en la primera línea, sin rodeos ni contexto previo.",
-    "Arranca citando el dato o hecho más chocante de la noticia, en tono seco y directo.",
+    "Arranca con una afirmación contundente y entusiasta en la primera línea, sin rodeos ni contexto previo.",
+    "Arranca citando el dato o hecho más sorprendente de la noticia, con genuino asombro.",
     "Arranca con una pregunta retórica corta que enganche, antes de dar cualquier contexto.",
-    "Arranca como si se lo estuvieras contando a alguien en un bar un viernes: casual, sin formalismos de oficina.",
+    "Arranca como si se lo estuvieras contando a alguien en un bar un viernes: casual, con ganas, sin formalismos de oficina.",
     "Arranca contrastando lo que 'todo el mundo repite' sobre este tema con lo que tú realmente piensas.",
-    "Arranca mencionando directamente la noticia y su titular, sin darle más vueltas.",
+    "Arranca mencionando directamente la noticia y por qué te parece una genialidad o una ridiculez, según corresponda.",
 ]
 
 # Cierres que sí terminan en pregunta (para invitar al debate).
 CIERRES_CON_PREGUNTA = [
-    "Cierra con una pregunta abierta e inteligente que invite a debatir en los comentarios.",
-    "Cierra retando directamente al lector a que te contradiga en los comentarios si no está de acuerdo.",
+    "Cierra con una pregunta abierta que invite a imaginar hacia dónde puede llegar esto.",
+    "Cierra con una pregunta curiosa que invite a comentar sus propias experiencias o ideas al respecto.",
     "Cierra con una pregunta corta y filosa, del estilo '¿o me equivoco?'.",
 ]
 
 # Cierres que NO terminan en pregunta (no todo post humano termina preguntando algo).
 CIERRES_SIN_PREGUNTA = [
-    "Cierra con una frase contundente tipo mic-drop, sin hacer ninguna pregunta.",
-    "Cierra con una predicción sarcástica sobre hacia dónde va esto.",
-    "Cierra con una ironía seca que resuma tu punto, sin necesidad de preguntar nada.",
+    "Cierra con una frase positiva y con humor, tipo mic-drop optimista.",
+    "Cierra con una reflexión inspiradora sobre el potencial de esto, sin perder el filo ni sonar cursi.",
+    "Cierra con una ironía liviana que resuma tu punto, sin sonar amargado.",
 ]
 
 
@@ -218,7 +218,7 @@ def generate_post(news_text, post_type="opinion"):
         REGLAS:
         1. INICIA EL POST mencionando de forma clara la noticia (que sea la base objetiva de tu opinión), y hazlo así: {apertura[0].lower()}{apertura[1:]}
         2. EL TONO debe seguir estrictamente la PERSONALIDAD DEL BOT definida arriba.
-        3. MANTÉN EL TOQUE POLÉMICO/DEBATE: Cuestiona de forma inteligente las decisiones o el rumbo de la industria, pero siempre con altura.
+        3. TOMA UNA POSTURA CLARA sobre la noticia: puede ser crítica, elogiosa o de asombro genuino, según lo que la noticia realmente amerite. No fuerces una crítica si la noticia es en el fondo algo bueno o admirable.
         4. ESTÁ ESTRICTAMENTE PROHIBIDO HABLAR DE POLÍTICA. Cero menciones a gobiernos, políticos o regulaciones estatales.
         5. LONGITUD REQUERIDA: El post debe ser {chosen_length}
         6. {cierre}

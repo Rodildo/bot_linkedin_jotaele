@@ -1,12 +1,17 @@
 # Temas sobre los que el bot busca noticias para comentar.
+# Mezclados a propósito entre temas que suelen dar noticias polémicas/críticas
+# y temas que suelen dar noticias positivas o de asombro genuino, para que el
+# bot no termine sonando como que odia todo (ver persona.txt).
 TOPICOS_TENDENCIA = [
     "vigilancia trabajo remoto",
     "despidos inteligencia artificial",
-    "quiebra startups tecnologia",
-    "adiccion redes sociales",
-    "burnout empleados empresas",
     "estafa cripto tecnologia",
+    "burnout empleados empresas",
+    "avances inteligencia artificial",
     "descubrimiento cientifico insolito",
+    "startups innovadoras exito",
+    "tendencias tecnologia futuro",
+    "logros cientificos sorprendentes",
 ]
 
 # Imagen genérica si la noticia no trae ninguna.
